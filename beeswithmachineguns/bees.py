@@ -185,6 +185,7 @@ def up(count, group, zone, image_id, instance_type, username, key_name, subnet, 
             security_group_ids=[groupId],
             instance_type=instance_type,
             placement=placement,
+            user_data="#! /bin/bash \n yum update -y; yum install httpd -y",
             subnet_id=subnet)
 
         # it can take a few seconds before the spot requests are fully processed
@@ -203,7 +204,9 @@ def up(count, group, zone, image_id, instance_type, username, key_name, subnet, 
                 security_group_ids=[groupId],
                 instance_type=instance_type,
                 placement=placement,
-                subnet_id=subnet)
+                subnet_id=subnet,
+                user_data="#! /bin/bash \n yum update -y; yum install httpd -y" 
+                )
 
         except boto.exception.EC2ResponseError as e:
             print("Unable to call bees:", e.message)
